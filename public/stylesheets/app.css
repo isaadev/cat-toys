@@ -19,7 +19,6 @@
 }
 
 .navbar {
-
     max-width: 60vw;
 }
 
@@ -32,11 +31,13 @@
     align-items: flex-end;
 }
 
+#cart, #navLinks {
+    transition: transform 300ms ease-in;
+}
+
 #cart:hover,
 #navLinks:hover {
-    transition-timing-function: ease-in-out;
     transform: translateY(-0.26em);
-    transition: 300ms
 }
 
 #header,
@@ -72,15 +73,19 @@ h2,
     color: #999997;
 }
 
+#floatthis {
+    transition: transform 300ms ease-in;
+}
+
 #floatthis:hover {
     transition-timing-function: ease-in-out;
     transform: translateY(-0.35rem);
-    transition: all 300ms ease-in-out;
 }
 
 .btn {
     background-color: #564471;
     color: white;
+    transition: color 300ms ease-in, background-color 300ms ease-in, border-radius 300ms ease-in;
 }
 
 .btn:hover {
@@ -88,15 +93,16 @@ h2,
 
     color: #564471;
     border-radius: 15px;
-    transition: all 600ms ease-in-out;
 }
 
 #back {
     background-color: white !important;
-    
     color: #564471 !important;
-    
-    border: 1px solid #564471 ;
+
+    border: 1px solid #564471;
+    transition: color 300ms ease-in,
+        background-color 300ms ease-in,
+        border-radius 300ms ease-in;
         
 }
 
@@ -104,7 +110,7 @@ h2,
     background-color: #564471 !important;
     color: white !important; 
     border-radius: 15px;
-    transition: all 600ms ease-in-out;
+    
 }
 .card-img-top {
     /* width: 200px; */
