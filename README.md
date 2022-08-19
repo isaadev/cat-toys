@@ -1,4 +1,4 @@
-# CatToys - E-commerce Website
+# MeowPlay - E-commerce Website
 
 
 This project is an e-commerce store built using Express, Node, MongoDB, EJS, and Javascript
