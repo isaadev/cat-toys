@@ -188,5 +188,5 @@ app.use((err, req, res, next) => {
 })
 
 app.listen(process.env.PORT || 3000, () => {
-    console.log('Backend Server on Port 3000 ✓')
+    console.log(`Backend Server on Port ${process.env.PORT} ✓`);
 })
