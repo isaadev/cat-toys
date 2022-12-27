@@ -3,6 +3,6 @@
 
 This project is an e-commerce store built using Express, Node, MongoDB, EJS, and Javascript.
 
-Currently, this project has been deployed on Heroku. 
+Currently, this project has been deployed on Railway. 
 Check it out here: 
-### https://meowplay.herokuapp.com/
+### https://cat-toys-production.up.railway.app/
