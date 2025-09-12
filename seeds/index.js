@@ -39,7 +39,7 @@ const seedProducts = [
     {
         name: 'Yarn Ball',
         description: 'Every cat\'s favorite!',
-        image: 'https://ext_ernal-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.publicdomainpictures.net%2Fpictures%2F170000%2Fvelka%2Fcat-isolated-on-the-white-1461322116tdn.jpg&f=1&nofb=1',
+        image: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.publicdomainpictures.net%2Fpictures%2F170000%2Fvelka%2Fcat-isolated-on-the-white-1461322116tdn.jpg&f=1&nofb=1',
         price: 6.99
     },
     {
