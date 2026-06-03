@@ -17,7 +17,7 @@
     <div class="row justify-content-center">
         <% for (let product of products) { %>
         <div class="col-md-4 mb-5">
-            <a href="/<%= product._id %>">
+            <a href="/<%= product._id %>" class="product-link">
                 <div class="card shadow-sm product-card">
                     <div class="product-img-wrap">
                         <img src="<%= product.image %>" class="card-img-top" alt="<%=product.name%>">
