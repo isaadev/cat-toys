@@ -34,16 +34,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(__dirname + '/public'));
 const sessionConfig = {
-    secret:'thisshouldbeabettersecret',
+    secret: process.env.SESSION_SECRET || 'thisshouldbeabettersecret',
     resave: false,
     saveUninitialized: true,
     store: new MongoStore({ mongooseConnection: mongoose.connection }),
     cookie: {
         httpOnly: true,
-        expires: Date.now() + 1000 * 60 * 60 * 24 + 7,
-        maxAge: 1000 * 60 * 60 * 24 + 7 
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7
     }
-
 }
 
 app.use(session(sessionConfig));
@@ -65,12 +64,6 @@ app.use(function(req, res, next) {
     next();
 })
 
-// app.get('/fakeUser', async(req, res) => {
-//     const user = new User({ email: 'isaa@gmail.com', username: 'isaa' });
-//     const newUser = await User.register(user, 'isaaa');
-//     res.send(newUser)
-// })
-
 app.get('/', catchAsync(async (req, res) => {
     const products = await Product.find();
     res.render('index', {products})
@@ -82,19 +75,19 @@ app.get('/register', (req, res) => {
     res.render('register')
 })
 
-app.post('/register', catchAsync(async (req,res) => {
+app.post('/register', catchAsync(async (req, res, next) => {
     try {
         const { username, email, password } = req.body;
         const user = new User({ email, username });
         const registeredUser = await User.register(user, password);
         req.login(registeredUser, err => {
-            if(err) return next(err);
+            if (err) return next(err);
             req.flash('success', 'Welcome to MeowPlay!');
             res.redirect('/');
-        })
+        });
     } catch(e) {
-        req.flash('error', e.message)
-        res.redirect('/register')
+        req.flash('error', e.message);
+        res.redirect('/register');
     }
 }));
 
@@ -125,15 +118,9 @@ app.get('/cart', (req, res) => {
 
 
 app.get('/checkout', (req, res) => {
-    req.flash('success', 'Thank you for shopping with us!')
-    req.session.destroy((err) => {
-        if (err) {
-            console.log(err)
-            return next(err)
-        }
-        // req.flash('success', 'Thanks for shopping with us!')
-        return res.redirect('/')
-    })
+    req.session.cart = null;
+    req.flash('success', 'Thank you for shopping with us!');
+    res.redirect('/');
 })
 
 app.get('/:id', catchAsync(async (req, res) => {
@@ -146,19 +133,18 @@ app.get('/:id', catchAsync(async (req, res) => {
     res.render('show', { product })
 }))
 
-app.get('/add-to-cart/:id', function (req, res, next) {
+app.get('/add-to-cart/:id', catchAsync(async (req, res) => {
     const productId = req.params.id;
-    let cart = new Cart(req.session.cart ? req.session.cart: { items: {} })
-    Product.findById(productId, function(err, product) {
-        if (err) {
-            return res.redirect('/')
-        }
-        cart.add(product, product.id);
-        req.session.cart = cart;
-        console.log(req.session.cart);
-        res.redirect('/')
-    })
-})
+    const product = await Product.findById(productId);
+    if (!product) {
+        req.flash('error', 'Product not found!');
+        return res.redirect('/');
+    }
+    let cart = new Cart(req.session.cart || { items: {} });
+    cart.add(product, product.id);
+    req.session.cart = cart;
+    res.redirect('/');
+}))
 
 
 app.get('/remove/:id', function (req, res, next) {
@@ -171,12 +157,6 @@ app.get('/remove/:id', function (req, res, next) {
 })
 
 
-// app.get('*', (req, res, next) => {
-//     res.locals.cart = req.session.cart;
-//     next();
-// })
-
-
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404))
 })
@@ -186,9 +166,5 @@ app.use((err, req, res, next) => {
     if (!err.message) err.message = 'Oh No, Something Went Wrong!'
     res.status(statusCode).render('error', { err })
 })
-
-// app.listen(process.env.PORT || 3000, () => {
-//     console.log(`Backend Server on Port ${process.env.PORT} ✓`);
-// })
 
 module.exports = app;
