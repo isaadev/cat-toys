@@ -1,31 +1,82 @@
-* {
+/* ── Theme variables ─────────────────────── */
+
+:root {
+    --bg:               #ffffff;
+    --bg-soft:          #fafafa;
+    --bg-hero-from:     #f5f0ff;
+    --bg-hero-to:       #fce8f5;
+    --text:             #3a2d52;
+    --text-muted:       #999997;
+    --border:           #f0edf7;
+    --navbar-bg:        #ffffff;
+    --accent:           #564471;
+    --accent-dark:      #3a2d52;
+    --accent-light:     #9b7abf;
+    --card-shadow:      rgba(86, 68, 113, 0.10);
+    --card-shadow-hover:rgba(86, 68, 113, 0.20);
+    --footer-text:      #c0bbc8;
+}
+
+[data-theme="dark"] {
+    --bg:               #13111c;
+    --bg-soft:          #1c1929;
+    --bg-hero-from:     #1c1929;
+    --bg-hero-to:       #20152e;
+    --text:             #e2daf0;
+    --text-muted:       #8c84a4;
+    --border:           #2b2342;
+    --navbar-bg:        #13111c;
+    --accent:           #a07fd4;
+    --accent-dark:      #c9adee;
+    --accent-light:     #c9adee;
+    --card-shadow:      rgba(0, 0, 0, 0.40);
+    --card-shadow-hover:rgba(0, 0, 0, 0.60);
+    --footer-text:      #3e3658;
+}
+
+/* ── Entrance animation ──────────────────── */
+
+@keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.page-content {
+    animation: fadeSlideUp 0.45s ease-in-out both;
+}
+
+/* ── Base ────────────────────────────────── */
+
+*, *::before, *::after {
     font-family: 'Itim', cursive;
 }
 
-.vertical-center {
-    min-height: 100%;
-    min-height: 50vh;
-    display: flex;
-    align-items: center;
+html {
+    transition: background-color 0.25s ease-in-out;
 }
 
-.cover-container {
-    max-width: 60vw;
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out;
 }
 
-#table {
-    margin: 0 auto;
-    max-width: 60%;
-}
+a { text-decoration: none; }
+
+/* ── Navbar ─────────────────────────────── */
 
 .navbar {
-    border-bottom: 1px solid #E6E6E3;
+    background-color: var(--navbar-bg) !important;
+    border-bottom: 1px solid var(--border);
+    position: sticky !important;
+    top: 0;
+    z-index: 100;
+    transition: background-color 0.25s ease, border-color 0.25s ease;
 }
 
-.navbar-toggler {
-    border: 0 !important;
-}
+.navbar-brand { color: var(--accent) !important; }
 
+.navbar-toggler { border: 0 !important; }
 
 .navbar-toggler:focus,
 .navbar-toggler:active,
@@ -35,159 +86,261 @@
     border: 0 !important;
 }
 
-/* Lines of the Toggler */
 .toggler-icon {
     width: 30px;
     height: 3px;
-    background-color: #564471;
+    background-color: var(--accent);
     display: block;
     transition: all 0.2s;
 }
 
-/* Adds Space between the lines */
-.middle-bar {
-    margin: 5px auto;
+.middle-bar { margin: 5px auto; }
+
+.navbar-toggler .top-bar    { transform: rotate(45deg); transform-origin: 10% 10%; }
+.navbar-toggler .middle-bar { opacity: 0; }
+.navbar-toggler .bottom-bar { transform: rotate(-45deg); transform-origin: 10% 90%; }
+
+.navbar-toggler.collapsed .top-bar    { transform: rotate(0); }
+.navbar-toggler.collapsed .middle-bar { opacity: 1; }
+.navbar-toggler.collapsed .bottom-bar { transform: rotate(0); }
+.navbar-toggler.collapsed .toggler-icon { background-color: #777; }
+
+.nav-greeting {
+    font-size: 0.82rem;
+    color: var(--text-muted);
 }
 
-/* State when navbar is opened (START) */
-.navbar-toggler .top-bar {
-    transform: rotate(45deg);
-    transform-origin: 10% 10%;
+#navLinks {
+    color: var(--accent);
+    transition: transform 280ms ease-in-out;
 }
 
-.navbar-toggler .middle-bar {
-    opacity: 0;
-    filter: alpha(opacity=0);
+#navLinks:hover { transform: translateY(-0.22em); }
+
+#cartLogo { color: var(--accent); }
+
+#cart { transition: transform 280ms ease-in-out; }
+#cart:hover { transform: translateY(-0.22em); }
+
+/* ── Cart badge ──────────────────────────── */
+
+#cartBadge {
+    background-color: var(--accent);
+    font-size: 0.58rem;
+    padding: 3px 5px;
+    min-width: 16px;
 }
 
-.navbar-toggler .bottom-bar {
-    transform: rotate(-45deg);
-    transform-origin: 10% 90%;
+/* ── Dark mode toggle ────────────────────── */
+
+.theme-toggle {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+    margin: 0 4px;
 }
 
-/* State when navbar is opened (END) */
-
-/* State when navbar is collapsed (START) */
-.navbar-toggler.collapsed .top-bar {
-    transform: rotate(0);
+.theme-toggle:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background-color: transparent;
 }
 
-.navbar-toggler.collapsed .middle-bar {
-    opacity: 1;
-    filter: alpha(opacity=100);
+/* ── Hero ────────────────────────────────── */
+
+.hero-section {
+    background: linear-gradient(135deg, var(--bg-hero-from) 0%, var(--bg-hero-to) 100%);
+    padding: 90px 24px 120px;
+    text-align: center;
+    transition: background 0.25s ease;
 }
 
-.navbar-toggler.collapsed .bottom-bar {
-    transform: rotate(0);
+.hero-eyebrow {
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    margin-bottom: 16px;
 }
 
-/* State when navbar is collapsed (END) */
-
-/* Color of Toggler when collapsed */
-.navbar-toggler.collapsed .toggler-icon {
-    background-color: #777777;
+.hero-section h1 {
+    font-size: 2.6rem;
+    color: var(--text);
+    margin-bottom: 14px;
+    line-height: 1.2;
 }
 
-.border {
-    color: #E6E6E3;
-    background-color: white;
+.hero-sub {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    margin-bottom: 32px;
 }
 
-/* .nav-link {
-    align-items: flex-end;
-} */
-
-#cart, #navLinks {
-    transition: transform 300ms ease-in;
+.hero-btn {
+    background-color: var(--accent) !important;
+    color: white !important;
+    border: none;
+    padding: 12px 36px;
+    border-radius: 30px;
+    font-size: 1rem;
+    transition: background-color 250ms ease, transform 200ms ease;
 }
 
-#cart:hover,
-#navLinks:hover {
-    transform: translateY(-0.26em);
+.hero-btn:hover {
+    background-color: var(--accent-dark) !important;
+    transform: translateY(-2px);
+    border-radius: 30px !important;
+    color: white !important;
 }
 
-#header,
-.card-title,
-.navbar,
-#navLinks,
-#cartLogo,
-h2,
-#headerCart {
-    color: #564471;
+/* ── Products section ────────────────────── */
+
+#products {
+    padding-top: 70px;
+    padding-bottom: 40px;
 }
 
-.navbar {
-    background-color: white !important;
-    position: sticky !important;
+/* ── Section header ──────────────────────── */
+
+.section-header h4 {
+    font-size: 1.4rem;
+    color: var(--accent);
+    margin-bottom: 6px;
 }
 
-#icon {
-    color: black;
+.section-header p { color: var(--text-muted); }
+
+/* ── Product cards ───────────────────────── */
+
+.product-card {
+    background-color: transparent;
+    border: none;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: none;
+    transition: transform 300ms ease-in-out;
 }
 
-
-.card {
-    margin: 0 auto;
-    float: none;
-    margin-bottom: 50px;
-    border: 0px;
+.product-card:hover {
+    transform: translateY(-8px);
 }
 
+.product-img-wrap {
+    background-color: #ffffff;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 210px;
+}
+
+.product-img-wrap img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.card-body { padding: 16px 20px 20px; }
+
+.card-title { color: var(--accent); }
 
 .card-text {
-    color: #999997;
+    color: var(--text-muted);
+    font-size: 0.9rem;
 }
 
-#floatthis {
-    transition: transform 300ms ease-in;
+#price {
+    color: var(--accent);
+    font-size: 1.1rem;
 }
 
-#floatthis:hover {
-    transition-timing-function: ease-in-out;
-    transform: translateY(-0.35rem);
+.view-link {
+    font-size: 0.85rem;
+    color: var(--accent-light);
 }
+
+/* ── Buttons ─────────────────────────────── */
 
 .btn {
-    background-color: #564471;
+    background-color: var(--accent);
     color: white;
-    transition: color 300ms ease-in, background-color 300ms ease-in, border-radius 300ms ease-in;
+    border-color: var(--accent);
+    transition: color 280ms ease-in-out, background-color 280ms ease-in-out, border-radius 280ms ease-in-out, border-color 280ms ease-in-out;
 }
 
 .btn:hover {
-    background-color: white !important;
-
-    color: #564471;
+    background-color: var(--bg) !important;
+    color: var(--accent) !important;
+    border-color: var(--accent) !important;
     border-radius: 15px;
 }
 
 #back {
-    background-color: white !important;
-    color: #564471 !important;
-
-    border: 1px solid #564471;
-    transition: color 300ms ease-in,
-        background-color 300ms ease-in,
-        border-radius 300ms ease-in;
-        
+    background-color: transparent !important;
+    color: var(--accent) !important;
+    border: 1.5px solid var(--accent) !important;
+    transition: color 280ms ease-in-out, background-color 280ms ease-in-out, border-radius 280ms ease-in-out;
 }
 
 #back:hover {
-    background-color: #564471 !important;
-    color: white !important; 
+    background-color: var(--accent) !important;
+    color: white !important;
     border-radius: 15px;
-    
 }
+
+/* ── Show page ───────────────────────────── */
+
+.card {
+    background-color: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 20px !important;
+    overflow: hidden;
+    transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out;
+}
+
 .card-img-top {
-    /* width: 200px; */
-    height: 200px;
-    object-fit: scale-down;
-    /* border-bottom: 1px solid #E6E6E3; */
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
 }
 
-a {
-    text-decoration: none
+/* ── Cart table ──────────────────────────── */
+
+#table {
+    margin: 0 auto;
+    max-width: 60%;
+    color: var(--text);
 }
 
-#price {
-    color:#564471;
+.table {
+    color: var(--text);
+    border-color: var(--border);
 }
+
+/* ── Flash messages ──────────────────────── */
+
+.alert { transition: background-color 0.25s ease; }
+
+/* ── Footer ──────────────────────────────── */
+
+.site-footer {
+    text-align: center;
+    padding: 32px 16px;
+    color: var(--footer-text);
+    font-size: 0.85rem;
+    border-top: 1px solid var(--border);
+    transition: color 0.25s ease, border-color 0.25s ease;
+}
+
+/* ── Responsive tweaks ───────────────────── */
+
+h2 { color: var(--accent); }
+
+#headerCart { color: var(--accent); }

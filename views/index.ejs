@@ -1,32 +1,42 @@
 <% layout('layouts/boilerplate')%>
 
-    <div class="mt-5 mb-5 text-center" id="header">
-        <h4><strong>Get your Cat Toys!</strong></h4>
-        <p class="text-muted">Entertain your loved feline with some simple toys! </p>
+<div class="hero-section">
+    <div class="hero-content">
+        <p class="hero-eyebrow">Free shipping on orders over $25</p>
+        <h1>Toys Your Cat Will Actually Love</h1>
+        <p class="hero-sub">Handpicked for curious minds and happy paws.</p>
+        <a href="#products" class="btn btn-lg hero-btn">Shop Now</a>
     </div>
-    <div class="jumbotron vertical-center">
-        <div class="container text-center">
-            <div class="row justify-content-center">
-                <% for (let product of products) { %>
-                <div class="col-md-4 col-md-offset-2 mb-4">
-                    <a href="/<%= product._id %>">
-                        <div class="card shadow" style="width: 70%;" id="floatthis">
-                            <img src="<%= product.image %>" class="card-img-top" alt="<%=product.name%>">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    <%= product.name %>
-                                </h5>
-                                <p class="card-text mb-3">
-                                    <%= product.description %>
-                                </p>
-                                <h5 id="price">$<%= product.price %></h5>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <% } %>
-            </div>
+</div>
 
-        <footer class="mt-auto text-muted">
-            <p>&copy; <%= new Date().getFullYear() %></p>
-        </footer>
+<div class="container" id="products">
+    <div class="section-header text-center mb-5">
+        <h4>Our Products</h4>
+        <p class="text-muted">Everything your feline needs to stay entertained</p>
+    </div>
+    <div class="row justify-content-center">
+        <% for (let product of products) { %>
+        <div class="col-md-4 mb-5">
+            <a href="/<%= product._id %>">
+                <div class="card shadow-sm product-card">
+                    <div class="product-img-wrap">
+                        <img src="<%= product.image %>" class="card-img-top" alt="<%=product.name%>">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title"><%= product.name %></h5>
+                        <p class="card-text mb-3"><%= product.description %></p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 id="price" class="mb-0">$<%= product.price %></h5>
+                            <span class="view-link">View &rarr;</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <% } %>
+    </div>
+</div>
+
+<footer class="site-footer mt-5">
+    <p>&copy; <%= new Date().getFullYear() %> MeowPlay &bull; Made with ♥ for cats</p>
+</footer>

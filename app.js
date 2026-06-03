@@ -61,6 +61,7 @@ app.use(function(req, res, next) {
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     res.locals.session = req.session;
+    res.locals.cartCount = req.session.cart ? new Cart(req.session.cart).totalQty : 0;
     next();
 })
 
@@ -166,5 +167,9 @@ app.use((err, req, res, next) => {
     if (!err.message) err.message = 'Oh No, Something Went Wrong!'
     res.status(statusCode).render('error', { err })
 })
+
+app.listen(process.env.PORT || 3000, () => {
+    console.log('Server running on http://localhost:3000');
+});
 
 module.exports = app;
